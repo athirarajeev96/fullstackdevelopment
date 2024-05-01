@@ -1,0 +1,116 @@
+body {
+    font-family: Arial, sans-serif;
+    font-size: small;
+}
+
+.container {
+    max-width: 600px; /* Limit the width of the container */
+    margin: 50px auto; /* Center the container horizontally */
+    padding: 20px;
+    border: 2px solid #000;
+}
+
+.label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.rate {
+    float: left;
+    height: 46px;
+    padding: 0 10px;
+
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;  
+  
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+
+.input-group input[type="text"],
+input[type="email"] {
+    width: 47%; /* Set the width of input fields */
+}
+.container-required{
+    color:red;
+}
+
+.table-container {
+    margin-top: 20px;
+    table-layout: fixed;
+}
+.satisfaction-table{
+    table-layout: fixed;
+}
+.table-container .label {
+    text-align: left; /* Align the text to the left */
+}
+table {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+table th,
+table td {
+    padding: 8px;
+}
+
+.satisfaction-table tbody tr:nth-child(1),
+.satisfaction-table tbody tr:nth-child(3) {
+    background-color: bisque;
+}
+
+.vertical-header {
+    text-align: left !important;
+}
+
+.vertical-header,
+td,
+input[type="radio"] {
+    text-align: center;
+}
+
+.vertical-header {
+    font-weight: bold;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+.submit-btn {
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}
