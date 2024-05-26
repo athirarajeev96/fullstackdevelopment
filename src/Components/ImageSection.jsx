@@ -7,7 +7,7 @@ function ImageSection() {
         <div className="row g-0">
           <div
             className="col-lg-6 order-lg-2 text-white showcase-img"
-            style={{ backgroundImage: "url(/assets/img/bg-showcase-1.jpg)" }}
+            style={{ backgroundImage: "url(src/assets/img/bg-showcase-1.jpg)" }}
 
           ></div>
           <div className="col-lg-6 order-lg-1 my-auto showcase-text">
@@ -21,7 +21,7 @@ function ImageSection() {
         <div className="row g-0">
           <div
             className="col-lg-6 text-white showcase-img"
-            style={{ backgroundImage: "url(/assets/img/bg-showcase-2.jpg)" }}
+            style={{ backgroundImage: "url(src/assets/img/bg-showcase-2.jpg)" }}
           ></div>
           <div className="col-lg-6 my-auto showcase-text">
             <h2>Updated For Bootstrap 5</h2>
@@ -34,7 +34,7 @@ function ImageSection() {
         <div className="row g-0">
           <div
             className="col-lg-6 order-lg-2 text-white showcase-img"
-            style={{ backgroundImage: "url(/assets/img/bg-showcase-3.jpg)" }}
+            style={{ backgroundImage: "url(src/assets/img/bg-showcase-3.jpg)" }}
           ></div>
           <div className="col-lg-6 order-lg-1 my-auto showcase-text">
             <h2>Easy to Use & Customize</h2>
