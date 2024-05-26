@@ -1,4 +1,7 @@
 import React from 'react';
+import bgShowcase1 from '../assets/img/bg-showcase-1.jpg';
+import bgShowcase2 from '../assets/img/bg-showcase-2.jpg';
+import bgShowcase3 from '../assets/img/bg-showcase-3.jpg';
 
 function ImageSection() {
   return (
@@ -7,8 +10,7 @@ function ImageSection() {
         <div className="row g-0">
           <div
             className="col-lg-6 order-lg-2 text-white showcase-img"
-            style={{ backgroundImage: "url(src/assets/img/bg-showcase-1.jpg)" }}
-
+            style={{ backgroundImage: `url(${bgShowcase1})` }}
           ></div>
           <div className="col-lg-6 order-lg-1 my-auto showcase-text">
             <h2>Fully Responsive Design</h2>
@@ -21,12 +23,12 @@ function ImageSection() {
         <div className="row g-0">
           <div
             className="col-lg-6 text-white showcase-img"
-            style={{ backgroundImage: "url(src/assets/img/bg-showcase-2.jpg)" }}
+            style={{ backgroundImage: `url(${bgShowcase2})` }}
           ></div>
           <div className="col-lg-6 my-auto showcase-text">
             <h2>Updated For Bootstrap 5</h2>
             <p className="lead mb-0">
-              Newly improved, and full of great utility classNamees, Bootstrap 5 is leading the way in mobile responsive
+              Newly improved, and full of great utility classes, Bootstrap 5 is leading the way in mobile responsive
               web development! All of the themes on Start Bootstrap are now using Bootstrap 5!
             </p>
           </div>
@@ -34,7 +36,7 @@ function ImageSection() {
         <div className="row g-0">
           <div
             className="col-lg-6 order-lg-2 text-white showcase-img"
-            style={{ backgroundImage: "url(src/assets/img/bg-showcase-3.jpg)" }}
+            style={{ backgroundImage: `url(${bgShowcase3})` }}
           ></div>
           <div className="col-lg-6 order-lg-1 my-auto showcase-text">
             <h2>Easy to Use & Customize</h2>
