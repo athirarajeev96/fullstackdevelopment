@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="calculator mx-auto">
+            <input type="text" class="form-control display" id="display" disabled>
+            <div class="buttons">
+                <!-- Row 1 -->
+                <div class="row">
+                    <button class="btn btn-light col" data-value="7">7</button>
+                    <button class="btn btn-light col" data-value="8">8</button>
+                    <button class="btn btn-light col" data-value="9">9</button>
+                    <button class="btn btn-danger col" data-value="C">C</button>
+                </div>
+                <!-- Row 2 -->
+                <div class="row">
+                    <button class="btn btn-light col" data-value="4">4</button>
+                    <button class="btn btn-light col" data-value="5">5</button>
+                    <button class="btn btn-light col" data-value="6">6</button>
+                    <button class="btn btn-primary col" data-value="/">/</button>
+                </div>
+                <!-- Row 3 -->
+                <div class="row">
+                    <button class="btn btn-light col" data-value="1">1</button>
+                    <button class="btn btn-light col" data-value="2">2</button>
+                    <button class="btn btn-light col" data-value="3">3</button>
+                    <button class="btn btn-primary col" data-value="*">*</button>
+                </div>
+                <!-- Row 4 -->
+                <div class="row">
+                    <button class="btn btn-light col" data-value="0">0</button>
+                    <button class="btn btn-light col" data-value=".">.</button>
+                    <button class="btn btn-success col" data-value="=">=</button>
+                    <button class="btn btn-primary col" data-value="-">-</button>
+                </div>
+                <!-- Row 5 -->
+                <div class="row">
+                    <button class="btn btn-primary col" data-value="+">+</button>
+                    <button class="btn btn-warning col" data-value="M+">M+</button>
+                    <button class="btn btn-warning col" data-value="M-">M-</button>
+                    <button class="btn btn-warning col" data-value="MC">MC</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="calculator.js"></script>
+    <script src="test-suite.js"></script>
+</body>
+</html>
