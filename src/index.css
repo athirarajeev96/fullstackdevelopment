@@ -1,0 +1,109 @@
+/* Apply background color to the body */
+body {
+  background-color: #f0f2f5;
+  font-family: Arial, sans-serif;
+}
+
+/* Style the container for the whole application */
+.container {
+  background-color: #eae0e0;
+  border-radius: 10px;
+  /*box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);*/
+  padding: 20px;
+  width: 80%;
+  max-width: 1500px;
+  margin: 0 auto; /* Center the container */
+}
+
+/* Style the My Todo List heading */
+h4 {
+  color: #35424a;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Style the container for cards */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  /*justify-content: space-even;*/
+}
+
+/* Style the individual card */
+.card {
+  background-color: #f2d1d1;
+  border-radius: 10px;
+  /*box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);*/
+  margin-bottom: 20px;
+  padding: 20px;
+  /*width: calc(50% - 20px); /* Adjusted width for two cards per row */
+  margin-right: 15px; /* Space between cards */
+  margin-bottom: 15px; /* Space between rows */
+}
+
+
+/* Style the dropdown toggle button */
+.dropdown-toggle {
+  background-color: #6c757d !important;
+  border: none !important;
+}
+
+/* Style the dropdown menu */
+.dropdown-menu {
+  background-color: #6c757d;
+}
+
+/* Style the dropdown items */
+.dropdown-item {
+  color: #eddcdc;
+}
+
+/* Style the edit and delete buttons */
+.btn-primary,
+.btn-danger {
+  margin-top: 10px;
+  width: 40%;
+}
+
+
+/* Style the input fields */
+.form-control {
+  border-radius: 20px;
+}
+
+/* Style the add/update todo button */
+.btn-success {
+  border-radius: 20px;
+}
+
+/* Style the container for My todos */
+.my-todos-container {
+  margin-bottom: 2px;
+}
+
+/* Style the container for Status Filter */
+.status-filter-container {
+  margin-bottom: 20px;
+}
+/* Apply styles to the header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Apply styles to the left part of the header */
+.left {
+  flex: 1; /* Occupy remaining space */
+}
+
+/* Apply styles to the right part of the header */
+.right {
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* Apply margin-bottom to create space between My Todos and the cards */
+.todolist-container {
+  margin-bottom: 20px;
+}
+
