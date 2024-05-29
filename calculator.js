@@ -1,56 +1,28 @@
-document.addEventListener('DOMContentLoaded', function () {
+function appendToDisplay(value) {
     const display = document.getElementById('display');
-    let currentInput = '';
-    let memory = 0;
+    display.value += value;
+}
 
-    document.querySelectorAll('.buttons button').forEach(button => {
-        button.addEventListener('click', () => {
-            handleInput(button.getAttribute('data-value'));
-        });
-    });
+function clearDisplay() {
+    const display = document.getElementById('display');
+    display.value = '';
+}
 
-    document.addEventListener('keydown', (event) => {
+function calculateResult() {
+    const display = document.getElementById('display');
+    try {
+        display.value = eval(display.value);
+    } catch (error) {
+        alert('Invalid expression');
+        clearDisplay();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('keydown', function (event) {
         const key = event.key;
-        if (key >= '0' && key <= '9') {
-            handleInput(key);
-        } else {
-            alert('Only numbers are allowed');
+        if (!(key >= '0' && key <= '9') && key !== '+' && key !== '-' && key !== '*' && key !== '/' && key !== '.') {
+            alert('Only numbers and operators (+, -, *, /) are allowed');
         }
     });
-
-    function handleInput(value) {
-        if (value === 'C') {
-            currentInput = '';
-            display.value = '';
-        } else if (value === '=') {
-            try {
-                display.value = eval(currentInput);
-                currentInput = display.value;
-            } catch (e) {
-                display.value = '';
-                currentInput = '';
-            }
-        } else if (value === 'M+') {
-            memory += parseFloat(display.value) || 0;
-        } else if (value === 'M-') {
-            memory -= parseFloat(display.value) || 0;
-        } else if (value === 'MC') {
-            memory = 0;
-        } else {
-            if (isOperator(value) && isOperator(currentInput.slice(-1))) {
-                currentInput = currentInput.slice(0, -1) + value;
-            } else {
-                currentInput += value;
-            }
-            display.value = currentInput;
-        }
-    }
-
-    function isOperator(char) {
-        return ['+', '-', '*', '/'].includes(char);
-    }
-
-    function alert(msg) {
-        window.alert(msg);
-    }
 });
