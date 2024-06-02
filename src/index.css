@@ -1,0 +1,38 @@
+.hidden{
+  display:none;
+}
+/* App.css */
+.navbar {
+  background-color:blueviolet;
+  color: #fff;
+  margin:30px;
+  padding: 30px;
+  height: 10px;
+}
+.navbar-brand {
+  color: rgb(182, 182, 226);
+  font-weight: bold;
+  margin: 20px;
+}
+.navbar-brand:hover {
+  color: #ffd700; /* Change color on hover */
+}
+
+.card {
+  margin-bottom: 30px;
+}
+.card-title {
+  font-size: 1rem; /* Adjust font size as needed */
+  margin-top: 5px;
+  font-weight: bold; /* Add font weight for emphasis */
+
+}
+.card-img-top {
+  height: 200px;
+}
+.container {
+  margin-top: 20px;
+}
+h4{
+  text-align: center;
+}
