@@ -1,0 +1,61 @@
+/* Custom styles for user cards */
+.card {
+    border: 1px solid #080303;
+    border-radius: 8px;
+    margin: 10px;
+    padding:10px;
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .card-subtitle {
+    font-size: 1.2rem;
+    color: #777;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .card a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+  
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .card-wrapper {
+    flex: 0 1 30%; /* Each card takes up 30% of the row */
+    max-width: 30%;
+    margin: 10px;
+  }
+  
+  /* Ensure that the card width is adjusted for the 3-2 layout */
+  @media (max-width: 10px) {
+    .card-wrapper {
+      flex: 0 1 10%; /* Each card takes up 45% of the row on medium screens */
+      max-width: 10%;
+    }
+  }
+  
+
+  
