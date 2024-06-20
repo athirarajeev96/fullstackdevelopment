@@ -61,20 +61,8 @@ function UserList() {
     setEditingUserId(userId); // Set the user ID to initiate editing mode
   };
 
-  const handleSave = (updatedUser) => {
-    const updatedUserData = userData.map(user =>
-      user.id === updatedUser.id ? updatedUser : user
-    );
-    setUserData(updatedUserData); // Update user data
-    setEditingUserId(null); // Exit editing mode
-  };
-
-  const handleCancel = () => {
-    setEditingUserId(null); // Cancel editing mode
-  };
-
   if (editingUserId) {
-    return <Navigate to={`/view-user/${editingUserId}`} replace />;
+    return <Navigate to={`/view-user/${editingUserId}`}/>;
   }
 
   return (
