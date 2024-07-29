@@ -3,23 +3,23 @@ const fs = require('fs');
 const path = require('path');
 
 // Define the port number and folder path
-const port = 3001; // port number
+const port = process.env.PORT || 3001; // Use environment port or default to 3001
 const folderPath = __dirname; // Directory where files are stored
 
 // Create the HTTP server
 const server = http.createServer((req, res) => {
+    console.log(`Received request: ${req.method} ${req.url}`); // Log the request method and URL
+
     if (req.method === 'GET') {
         if (req.url === '/create-file') {
-            // Generate the current date and time for the filename
             const now = new Date();
             const timestamp = now.toISOString().replace(/:/g, '-'); // Replace ':' with '-' for valid filenames
             const filename = `${timestamp}.txt`;
-            const filePath = path.join(folderPath, filename); // Directly create the file in the current directory
+            const filePath = path.join(folderPath, filename);
 
-            // Write the current date and time to the file
             fs.writeFile(filePath, now.toString(), 'utf-8', (err) => {
                 if (err) {
-                    console.error(err);
+                    console.error('Error creating file:', err); // Log error details
                     res.writeHead(500, { 'Content-Type': 'text/plain' });
                     res.end('Failed to create file');
                 } else {
@@ -28,14 +28,12 @@ const server = http.createServer((req, res) => {
                 }
             });
         } else if (req.url === '/list-files') {
-            // Retrieve all files in the folder
             fs.readdir(folderPath, (err, files) => {
                 if (err) {
-                    console.error(err);
+                    console.error('Error listing files:', err); // Log error details
                     res.writeHead(500, { 'Content-Type': 'text/plain' });
                     res.end('Failed to retrieve files');
                 } else {
-                    // Send the list of all files
                     res.writeHead(200, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify(files));
                 }
