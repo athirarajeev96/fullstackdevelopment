@@ -4,7 +4,7 @@
   "description": "Node.js HTTP Server\r This Node.js project creates a simple HTTP server that can create timestamped text files and list all files in the server's directory.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC"
