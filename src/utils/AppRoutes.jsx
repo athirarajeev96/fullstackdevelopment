@@ -14,7 +14,7 @@ import Register from '../components/Register';
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/" element={<LoginPage />} />
       <Route path="/register" element={<Register />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/class-schedule" element={<ClassSchedulePage />} />
