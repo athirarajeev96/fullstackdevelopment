@@ -3,6 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import AxiosService from '../utils/AxiosService';
 import ApiRoutes from '../utils/ApiRoutes';
 
+const LoadingSpinner = () => (
+  <div className="loading-spinner"></div>
+);
+
 const FeatureModal = ({ isOpen, onClose, feature }) => {
   if (!isOpen) return null;
 
@@ -20,6 +24,7 @@ const FeatureModal = ({ isOpen, onClose, feature }) => {
 const HomePage = () => {
   const [classes, setClasses] = useState([]);
   const [selectedFeature, setSelectedFeature] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const features = [
@@ -57,13 +62,40 @@ const HomePage = () => {
     try {
       const { data } = await AxiosService.get(ApiRoutes.GET_CLASSES.path, { authenticate: ApiRoutes.GET_CLASSES.auth });
       setClasses(data);
+      setLoading(false);
     } catch (error) {
       console.error("Failed to fetch classes:", error.message || "Internal Server Error");
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchClasses();
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate');
+        }
+      });
+    }, observerOptions);
+
+    const features = document.querySelectorAll('.feature');
+    const classCards = document.querySelectorAll('.class-card');
+
+    features.forEach(feature => observer.observe(feature));
+    classCards.forEach(card => observer.observe(card));
+
+    return () => {
+      features.forEach(feature => observer.unobserve(feature));
+      classCards.forEach(card => observer.unobserve(card));
+    };
   }, []);
 
   const handleLogout = () => {
@@ -117,22 +149,26 @@ const HomePage = () => {
 
         <section className="featured-classes">
           <h2 className="section-title">Featured Classes</h2>
-          <div className="class-grid">
-            {classes.length > 0 ? (
-              classes.map((classItem) => (
-                <div key={classItem.id} className="class-card">
-                  <img src="https://assets.clevelandclinic.org/transform/961a1749-1e63-48e8-9550-cb6d2ed2c8b0/HotYoga-1076946682-770x533-1_jpg" alt={classItem.name} className="class-image" />
-                  <div className="class-info">
-                    <h3>{classItem.name}</h3>
-                    <p>{classItem.description}</p>
-                    <Link to={`/class/${classItem.id}`} className="class-link">Learn More</Link>
+          {loading ? (
+            <LoadingSpinner />
+          ) : (
+            <div className="class-grid">
+              {classes.length > 0 ? (
+                classes.map((classItem) => (
+                  <div key={classItem.id} className="class-card">
+                    <img src="https://assets.clevelandclinic.org/transform/961a1749-1e63-48e8-9550-cb6d2ed2c8b0/HotYoga-1076946682-770x533-1_jpg" alt={classItem.name} className="class-image" />
+                    <div className="class-info">
+                      <h3>{classItem.name}</h3>
+                      <p>{classItem.description}</p>
+                      <Link to={`/class/${classItem.id}`} className="class-link">Learn More</Link>
+                    </div>
                   </div>
-                </div>
-              ))
-            ) : (
-              <p>No classes available at the moment.</p>
-            )}
-          </div>
+                ))
+              ) : (
+                <p>No classes available at the moment.</p>
+              )}
+            </div>
+          )}
         </section>
       </main>
 
