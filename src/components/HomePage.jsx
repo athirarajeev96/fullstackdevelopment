@@ -97,7 +97,7 @@ const HomePage = () => {
         <div className="hero-content">
           <h1 className="hero-title">Fitness that fits you</h1>
           <p className="hero-subtitle">Join FitFlex and transform your life</p>
-          <Link to="/sign-up" className="cta-button">Get Started</Link>
+          <Link to="/bookings" className="cta-button">Get Started</Link>
         </div>
       </header>
 

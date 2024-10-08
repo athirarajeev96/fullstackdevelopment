@@ -1,30 +1,25 @@
 import axios from 'axios';
 
-const axiosService = axios.create({
-    baseURL: 'http://localhost:8000', // Set base URL here
-    headers: {
-        'Content-Type': 'application/json',
-        // Add any other headers you might need, like Authorization
-    },
+// Set the base URL for your API
+const baseURL = 'http://localhost:8000/api'; // Adjust this based on your backend setup
+
+const AxiosService = axios.create({
+  baseURL, // Set base URL
+  headers: {
+    'Content-Type': 'application/json',
+    // Add other headers if necessary
+  }
 });
 
-axiosService.interceptors.response.use(
-    (response) => {
-        // Return the full response object
-        return response; // This way you get the entire response, including status, headers, etc.
-    },
-    (error) => {
-        if (error.response) {
-            console.error("Error data:", error.response.data);
-            console.error("Error status:", error.response.status);
-            console.error("Error headers:", error.response.headers);
-        } else if (error.request) {
-            console.error("Error request:", error.request);
-        } else {
-            console.error('Error message:', error.message);
-        }
-        return Promise.reject(error);
-    }
-);
+// Optionally add interceptors for token handling
+AxiosService.interceptors.request.use(config => {
+  const token = localStorage.getItem('token'); // Adjust based on your authentication method
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+}, error => {
+  return Promise.reject(error);
+});
 
-export default axiosService;
+export default AxiosService;

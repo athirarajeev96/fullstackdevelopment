@@ -19,7 +19,7 @@ const AppRoutes = () => {
       <Route path="/home" element={<HomePage />} />
       <Route path="/class-schedule" element={<ClassSchedulePage />} />
       <Route path="/trainers" element={<TrainerProfilePage />} /> {/* List of trainers */}
-      <Route path="/booking" element={<BookingPage />} />
+      <Route path="/bookings" element={<BookingPage />} />
       <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
       <Route path="/user-dashboard" element={<UserDashboardPage />} />
       <Route path="/trainer-feedback" element={<TrainerFeedback />} />

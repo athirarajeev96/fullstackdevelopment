@@ -10,35 +10,45 @@ const TrainerFeedback = () => {
   const [selectedTrainer, setSelectedTrainer] = useState('');
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchFeedbacks();
-    fetchTrainers();
+    const fetchData = async () => {
+      await fetchTrainers();
+      await fetchFeedbacks();
+    };
+    fetchData();
   }, []);
-
-  const fetchFeedbacks = async () => {
-    try {
-      const { data } = await AxiosService.get(ApiRoutes.GET_FEEDBACK_FOR_TRAINER.path, { authenticate: ApiRoutes.GET_FEEDBACK_FOR_TRAINER.auth });
-      setFeedbacks(data);
-    } catch (error) {
-      console.error("Error fetching feedbacks:", error);
-      toast.error(error.response?.data?.message || "Error fetching feedbacks");
-    }
-  };
 
   const fetchTrainers = async () => {
     try {
+      setIsLoading(true);
       const { data } = await AxiosService.get(ApiRoutes.GET_ALL_TRAINERS.path, {
         authenticate: ApiRoutes.GET_ALL_TRAINERS.auth,
       });
+      console.log('Fetched trainers:', data);
       const formattedTrainers = data.map((trainer) => ({
         value: trainer._id,
-        label: trainer.name
+        label: trainer.name,
       }));
       setTrainers(formattedTrainers);
     } catch (error) {
       console.error("Error fetching trainers:", error);
       toast.error(error.response?.data?.message || 'Error fetching trainers');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchFeedbacks = async () => {
+    try {
+      const { data } = await AxiosService.get(ApiRoutes.GET_FEEDBACKS.path, {
+        authenticate: ApiRoutes.GET_FEEDBACKS.auth,
+      });
+      setFeedbacks(data);
+    } catch (error) {
+      console.error("Error fetching feedbacks:", error);
+      toast.error(error.response?.data?.message || 'Error fetching feedbacks');
     }
   };
 
@@ -48,19 +58,30 @@ const TrainerFeedback = () => {
       return;
     }
     try {
-      await AxiosService.post(ApiRoutes.SUBMIT_FEEDBACK.path, 
-        { trainerId: selectedTrainer, rating, comment }, 
+      setIsLoading(true);
+      console.log('Submitting feedback with:', { trainerId: selectedTrainer, rating, comment }); // Log data being sent
+      await AxiosService.post(
+        ApiRoutes.SUBMIT_FEEDBACK.path,
+        { trainerName: selectedTrainer, rating, comment }, // Change trainerId to trainerName if needed
         { authenticate: ApiRoutes.SUBMIT_FEEDBACK.auth }
       );
+      
       toast.success("Feedback submitted successfully!");
       setSelectedTrainer('');
       setRating(0);
       setComment('');
-      fetchFeedbacks();
+      await fetchFeedbacks(); // Refresh feedback list
     } catch (error) {
-      console.error("Error submitting feedback:", error);
+      console.error("Error submitting feedback:", error); // Log the error object
       toast.error(error.response?.data?.message || "Error submitting feedback");
+    } finally {
+      setIsLoading(false);
     }
+  };
+  
+  const getTrainerName = (trainerId) => {
+    const trainer = trainers.find(t => t.value === trainerId);
+    return trainer ? trainer.label : 'Unknown Trainer';
   };
 
   const StarRating = ({ rating }) => {
@@ -77,6 +98,10 @@ const TrainerFeedback = () => {
       </div>
     );
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="trainer-feedback-container">
@@ -134,8 +159,9 @@ const TrainerFeedback = () => {
           <h3 className="trainer-feedback-title">Existing Feedbacks</h3>
           {feedbacks.length > 0 ? (
             feedbacks.map((feedback) => (
-              <div key={feedback.id} className="trainer-feedback-item">
-                <h4>{feedback.trainerName}</h4>
+              <div key={feedback._id} className="trainer-feedback-item">
+                <h4>{getTrainerName(feedback.trainerId)}</h4>
+                <p><strong>Trainer ID:</strong> {feedback.trainerId}</p>
                 <StarRating rating={feedback.rating} />
                 <p className="trainer-feedback-comment"><strong>Comment:</strong> {feedback.comment}</p>
               </div>
