@@ -67,7 +67,7 @@ const HomePage = () => {
   }, []);
 
   const handleLogout = () => {
-    navigate('/login');
+    navigate('/');
   };
 
   const openFeatureModal = (feature) => {
