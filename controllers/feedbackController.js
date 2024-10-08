@@ -2,23 +2,20 @@ import Feedback from '../models/Feedback.js'; // Assuming Feedback is your Mongo
 import Trainer from '../models/Trainer.js';   // Assuming Trainer is your Mongoose model
 
 // Create Feedback
-export const createFeedback = async (trainerId, rating, comment, userId) => {
+export const createFeedback = async (trainerName, rating, comment, userId) => {
   try {
-    // Find the trainer using the trainerId to fetch the trainer's name
-    const trainer = await Trainer.findById(trainerId);
+    // Find the trainer using the trainerName to validate if it exists
+    const trainer = await Trainer.findOne({ name: trainerName }); // Use `findOne` to find by trainer name
     if (!trainer) {
       throw new Error('Trainer not found');
     }
 
-    const trainerName = trainer.name; // Fetch the trainer's name
-
-    // Create the feedback with trainerName, rating, and comment
+    // Create the feedback with trainerId, rating, and comment
     const feedback = new Feedback({
-      trainerId,
-      trainerName, // Automatically assign the trainer name
+      trainerName,             // Store the trainer's name
       rating,
       comment,
-      userId, // If you want to track who submitted the feedback
+      userId                   // Include userId if necessary for tracking who submitted the feedback
     });
 
     // Save the feedback to the database
@@ -29,12 +26,13 @@ export const createFeedback = async (trainerId, rating, comment, userId) => {
   }
 };
 
-
 // Get all feedbacks (optionally filter by trainer)
 export const getFeedback = async () => {
   try {
     // Fetch all feedbacks, including the trainer name that was saved earlier
-    const feedbacks = await Feedback.find(); // Returns feedback along with the trainer name stored
+    const feedbacks = await Feedback.find()
+      .populate('trainerId', 'name') // Populate the trainerId field with trainer name
+      .exec();
     return feedbacks;
   } catch (error) {
     throw error;

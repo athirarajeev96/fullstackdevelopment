@@ -5,15 +5,15 @@ import { authMiddleware } from '../middleware/authMiddleware.js';
 const router = express.Router();
 
 // Submit feedback for a trainer
-router.post('/', authMiddleware, async (req, res) => {
-  const { trainerId, rating, comment } = req.body;
-  const userId = req.user.id; // Assuming you're storing the user ID from the middleware
+router.post('/', authMiddleware, async (req, res) => { // Use just '/' for feedback submission
+  const { trainerName, rating, comment } = req.body; 
+  const userId = req.user.id; 
 
   try {
-    await createFeedback(trainerId, rating, comment, userId);
+    await createFeedback(trainerName, rating, comment, userId);
     res.status(201).send({ message: 'Feedback submitted successfully' });
   } catch (error) {
-    res.status(400).send({ message: 'Error submitting feedback' });
+    res.status(400).send({ message: error.message || 'Error submitting feedback' });
   }
 });
 
