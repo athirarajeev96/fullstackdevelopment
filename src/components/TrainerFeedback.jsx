@@ -28,7 +28,7 @@ const TrainerFeedback = () => {
       });
       console.log('Fetched trainers:', data);
       const formattedTrainers = data.map((trainer) => ({
-        value: trainer._id,
+        value: trainer.name, // Use trainer name
         label: trainer.name,
       }));
       setTrainers(formattedTrainers);
@@ -42,8 +42,8 @@ const TrainerFeedback = () => {
 
   const fetchFeedbacks = async () => {
     try {
-      const { data } = await AxiosService.get(ApiRoutes.GET_FEEDBACKS.path, {
-        authenticate: ApiRoutes.GET_FEEDBACKS.auth,
+      const { data } = await AxiosService.get(ApiRoutes.GET_FEEDBACK_FOR_TRAINER.path, {
+        authenticate: ApiRoutes.GET_FEEDBACK_FOR_TRAINER.auth,
       });
       setFeedbacks(data);
     } catch (error) {
@@ -52,36 +52,28 @@ const TrainerFeedback = () => {
     }
   };
 
-  const handleFeedbackSubmit = async () => {
-    if (!selectedTrainer || rating === 0 || !comment) {
-      toast.error("Please fill in all fields to submit feedback.");
-      return;
-    }
+  const handleFeedbackSubmit = async (e) => {
+    e.preventDefault();
+
+    // Prepare feedback data
+    const feedbackData = { trainerName: selectedTrainer, rating, comment };
+
     try {
-      setIsLoading(true);
-      console.log('Submitting feedback with:', { trainerId: selectedTrainer, rating, comment }); // Log data being sent
-      await AxiosService.post(
-        ApiRoutes.SUBMIT_FEEDBACK.path,
-        { trainerName: selectedTrainer, rating, comment }, // Change trainerId to trainerName if needed
-        { authenticate: ApiRoutes.SUBMIT_FEEDBACK.auth }
-      );
-      
-      toast.success("Feedback submitted successfully!");
-      setSelectedTrainer('');
-      setRating(0);
-      setComment('');
-      await fetchFeedbacks(); // Refresh feedback list
+      // Send POST request to the correct endpoint
+      const response = await AxiosService.post('http://localhost:8000/api/feedback/create', feedbackData);
+
+
+      // Handle successful submission
+      console.log('Feedback submitted:', response.data);
+      toast.success('Feedback submitted successfully!'); // Notify success
+      setRating(0); // Reset rating
+      setComment(''); // Reset comment
+      setSelectedTrainer(''); // Reset selected trainer
+      fetchFeedbacks(); // Fetch updated feedbacks
     } catch (error) {
-      console.error("Error submitting feedback:", error); // Log the error object
-      toast.error(error.response?.data?.message || "Error submitting feedback");
-    } finally {
-      setIsLoading(false);
+      console.error('Error submitting feedback:', error);
+      toast.error(error.response?.data?.message || 'Error submitting feedback');
     }
-  };
-  
-  const getTrainerName = (trainerId) => {
-    const trainer = trainers.find(t => t.value === trainerId);
-    return trainer ? trainer.label : 'Unknown Trainer';
   };
 
   const StarRating = ({ rating }) => {
@@ -110,13 +102,14 @@ const TrainerFeedback = () => {
         <h2 className="trainer-feedback-title">Trainer Feedback</h2>
 
         {/* Feedback Form */}
-        <div>
+        <form onSubmit={handleFeedbackSubmit}>
           <label htmlFor="trainerSelect" className="trainer-feedback-label">Select Trainer</label>
           <select
             id="trainerSelect"
             className="trainer-feedback-input"
             value={selectedTrainer}
             onChange={(e) => setSelectedTrainer(e.target.value)}
+            required
           >
             <option value="">-- Select Trainer --</option>
             {trainers.map((trainer) => (
@@ -135,6 +128,7 @@ const TrainerFeedback = () => {
             max="5"
             value={rating}
             onChange={(e) => setRating(Number(e.target.value))}
+            required
           />
 
           <label htmlFor="comment" className="trainer-feedback-label">Comment</label>
@@ -144,15 +138,13 @@ const TrainerFeedback = () => {
             rows="4"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
+            required
           />
 
-          <button
-            className="trainer-feedback-button"
-            onClick={handleFeedbackSubmit}
-          >
+          <button type="submit" className="trainer-feedback-button">
             Submit Feedback
           </button>
-        </div>
+        </form>
 
         {/* Feedback Display */}
         <div className="trainer-feedback-display">
@@ -160,8 +152,7 @@ const TrainerFeedback = () => {
           {feedbacks.length > 0 ? (
             feedbacks.map((feedback) => (
               <div key={feedback._id} className="trainer-feedback-item">
-                <h4>{getTrainerName(feedback.trainerId)}</h4>
-                <p><strong>Trainer ID:</strong> {feedback.trainerId}</p>
+                <h4>{feedback.trainerName}</h4> {/* Use trainerName from feedback */}
                 <StarRating rating={feedback.rating} />
                 <p className="trainer-feedback-comment"><strong>Comment:</strong> {feedback.comment}</p>
               </div>
