@@ -52,9 +52,6 @@ const styles = {
   tr: {
     transition: 'background-color 0.3s',
   },
-  trHover: {
-    backgroundColor: '#e0e0e0',
-  },
   bookButton: {
     backgroundColor: '#007BFF',
     color: 'white',
@@ -76,7 +73,6 @@ const BookingPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [hoveredButton, setHoveredButton] = useState(null);
 
-  // Fetch classes
   const fetchClasses = async () => {
     try {
       setIsLoading(true);
@@ -93,26 +89,36 @@ const BookingPage = () => {
     fetchClasses();
   }, []);
 
-  const handleBook = async (classId, className, classDate, classTime) => {
+  const handleBook = async (selectedTrainerId, classId, classDate, classTime) => {
+    const userId = localStorage.getItem('userId');
+    console.log('User ID from localStorage:', userId); // Debugging log
+
+    if (!userId) {
+      setNotification('User not logged in. Please log in and try again.');
+      return;
+    }
+
     try {
       setIsLoading(true);
       const response = await axios.post('http://localhost:8000/api/bookings', {
-        classId,
-        name: className,
+        user: userId,
+        trainer: selectedTrainerId,
+        classId: classId,
         date: classDate,
         time: classTime,
       });
+      console.log('Booking response:', response.data);
       setNotification('Class booked successfully!');
       fetchClasses();
     } catch (error) {
-      setNotification(error.response?.data?.message || 'Error booking class');
+      console.error('Booking error:', error);
+      setNotification(error.response?.data?.message || 'Error booking class. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
 
   const getAvailableDates = (cls) => cls.schedule.map(s => s.date);
-
   const getAvailableTimeSlots = (cls, classDate) => {
     const selectedSchedule = cls.schedule.find(s => s.date === classDate);
     return selectedSchedule ? selectedSchedule.timeSlots.filter(slot => slot.isAvailable).map(slot => slot.time) : [];

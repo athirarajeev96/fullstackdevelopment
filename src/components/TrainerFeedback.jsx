@@ -5,7 +5,6 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const TrainerFeedback = () => {
-  const [feedbacks, setFeedbacks] = useState([]);
   const [trainers, setTrainers] = useState([]);
   const [selectedTrainer, setSelectedTrainer] = useState('');
   const [rating, setRating] = useState(0);
@@ -15,7 +14,6 @@ const TrainerFeedback = () => {
   useEffect(() => {
     const fetchData = async () => {
       await fetchTrainers();
-      await fetchFeedbacks();
     };
     fetchData();
   }, []);
@@ -40,55 +38,23 @@ const TrainerFeedback = () => {
     }
   };
 
-  const fetchFeedbacks = async () => {
-    try {
-      const { data } = await AxiosService.get(ApiRoutes.GET_FEEDBACK_FOR_TRAINER.path, {
-        authenticate: ApiRoutes.GET_FEEDBACK_FOR_TRAINER.auth,
-      });
-      setFeedbacks(data);
-    } catch (error) {
-      console.error("Error fetching feedbacks:", error);
-      toast.error(error.response?.data?.message || 'Error fetching feedbacks');
-    }
-  };
-
   const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
-
-    // Prepare feedback data
+  
     const feedbackData = { trainerName: selectedTrainer, rating, comment };
-
+  
     try {
-      // Send POST request to the correct endpoint
-      const response = await AxiosService.post('http://localhost:8000/api/feedback/create', feedbackData);
-
-
-      // Handle successful submission
+      const response = await AxiosService.post(ApiRoutes.SUBMIT_FEEDBACK.path, feedbackData);
+  
       console.log('Feedback submitted:', response.data);
-      toast.success('Feedback submitted successfully!'); // Notify success
-      setRating(0); // Reset rating
-      setComment(''); // Reset comment
-      setSelectedTrainer(''); // Reset selected trainer
-      fetchFeedbacks(); // Fetch updated feedbacks
+      toast.success('Feedback submitted successfully!');
+      setRating(0);
+      setComment('');
+      setSelectedTrainer('');
     } catch (error) {
       console.error('Error submitting feedback:', error);
       toast.error(error.response?.data?.message || 'Error submitting feedback');
     }
-  };
-
-  const StarRating = ({ rating }) => {
-    return (
-      <div className="star-rating">
-        {[...Array(5)].map((_, index) => (
-          <span
-            key={index}
-            className={`star ${index < rating ? '' : 'star-empty'}`}
-          >
-            ★
-          </span>
-        ))}
-      </div>
-    );
   };
 
   if (isLoading) {
@@ -145,22 +111,6 @@ const TrainerFeedback = () => {
             Submit Feedback
           </button>
         </form>
-
-        {/* Feedback Display */}
-        <div className="trainer-feedback-display">
-          <h3 className="trainer-feedback-title">Existing Feedbacks</h3>
-          {feedbacks.length > 0 ? (
-            feedbacks.map((feedback) => (
-              <div key={feedback._id} className="trainer-feedback-item">
-                <h4>{feedback.trainerName}</h4> {/* Use trainerName from feedback */}
-                <StarRating rating={feedback.rating} />
-                <p className="trainer-feedback-comment"><strong>Comment:</strong> {feedback.comment}</p>
-              </div>
-            ))
-          ) : (
-            <p className="trainer-feedback-comment">No feedbacks available.</p>
-          )}
-        </div>
       </div>
     </div>
   );
