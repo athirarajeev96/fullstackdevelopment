@@ -1,1 +1,1 @@
-export const BASE_URL = 'https://fullstackdevelopment-4.onrender.com/api'
+export const BASE_URL = 'https://fullstackdevelopment-4.onrender.com'
