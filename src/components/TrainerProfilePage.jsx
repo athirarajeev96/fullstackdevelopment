@@ -62,7 +62,7 @@ const TrainerProfilePage = () => {
     const fetchTrainers = async () => {
         console.log('Fetching trainers...');
         try {
-            const response = await axiosService.get('http://localhost:8000/api/trainers');
+            const response = await axiosService.get('https://fullstackdevelopment-4.onrender.com/api/trainers');
             console.log('API Response:', response);
             console.log('Response Data:', response.data);
 

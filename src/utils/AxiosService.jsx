@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Set the base URL for your API
-const baseURL = 'http://localhost:8000/api'; // Adjust this based on your backend setup
+const baseURL = 'https://fullstackdevelopment-4.onrender.com'; // Adjust this based on your backend setup
 
 const AxiosService = axios.create({
   baseURL, // Set base URL

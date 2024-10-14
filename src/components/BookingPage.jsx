@@ -76,7 +76,7 @@ const BookingPage = () => {
   const fetchClasses = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get('http://localhost:8000/api/class');
+      const response = await axios.get('https://fullstackdevelopment-4.onrender.com/api/class');
       setClasses(response.data);
     } catch (error) {
       setNotification(error.response?.data?.message || 'Error fetching classes');
@@ -100,7 +100,7 @@ const BookingPage = () => {
 
     try {
       setIsLoading(true);
-      const response = await axios.post('http://localhost:8000/api/bookings', {
+      const response = await axios.post('https://fullstackdevelopment-4.onrender.com/api/bookings', {
         user: userId,
         trainer: selectedTrainerId,
         classId: classId,

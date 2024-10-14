@@ -47,7 +47,7 @@ const ClassSchedulePage = () => {
   const fetchClasses = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get('http://localhost:8000/api/class');
+      const response = await axios.get('https://fullstackdevelopment-4.onrender.com/api/class');
       setClasses(response.data);
     } catch (error) {
       console.error('Error fetching classes:', error);
@@ -79,7 +79,7 @@ const ClassSchedulePage = () => {
     }
     try {
       setIsLoading(true);
-      const response = await axios.post('http://localhost:8000/api/schedule', {
+      const response = await axios.post('https://fullstackdevelopment-4.onrender.com/api/schedule', {
         classId: selectedClass._id,
         name: selectedClass.name,
         date: classDate,
