@@ -6,7 +6,11 @@ import Routes from './routes/index.js'
 const PORT = process.env.PORT
 const app = express()
 
-app.use(cors())
+app.use(cors({
+    origin: ['https://incandescent-trifle-4e7efd.netlify.app/'], // Replace with your Netlify URL
+    credentials: true
+  }));
+  
 app.use(express.json())
 
 app.use(Routes)
